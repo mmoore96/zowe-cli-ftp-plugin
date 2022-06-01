@@ -121,8 +121,8 @@ export class JobUtils {
         this.log.debug("Attempting to locate job by job ID %s", jobId);
         const jobStatus = await connection.getJobStatus({jobId: jobId.toUpperCase(), owner: "*"});
         if (jobStatus.retcode) {
-            // zos-node-accessor returns 'RC 0000', which need be converted to 'CC 0000'.
-            jobStatus.retcode = jobStatus.retcode.replace(/^RC /, "CC ");
+            // zos-node-accessor returns 'RC 0000', which need be converted to 'RC=0000'.
+            jobStatus.retcode = jobStatus.retcode.replace(/ /, "=");
         }
         return jobStatus;
     }
@@ -144,12 +144,14 @@ export class JobUtils {
             const ownerIndex = 2;
             const statusIndex = 3;
             const classIndex = 4;
+            const retCodeIndex = 5;
             return {
                 jobname: fields[jobNameIndex],
                 jobid: fields[jobIdIndex],
                 owner: fields[ownerIndex],
                 status: fields[statusIndex],
                 class: fields[classIndex],
+                retcode: fields[retCodeIndex],
                 originalFtpResult: job
             };
         });

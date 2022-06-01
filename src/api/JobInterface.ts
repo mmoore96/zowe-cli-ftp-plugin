@@ -67,6 +67,11 @@ export interface IJob {
     class: string;
 
     /**
+     * Job Return Code
+     */
+     retcode: string;
+     
+    /**
      * Extra information
      */
     extra?: string;
@@ -117,11 +122,6 @@ export interface IJobStatus extends IJob {
      * Job RC value, indicating job finished with numberic value or failed with error string.
      */
     rc?: string | number;
-
-    /**
-     * Job RC value, to support zftp plugin with consistent return code format with z/OSMF.
-     */
-    retcode?: string;
 
     /**
      * Spool files.
